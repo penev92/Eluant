@@ -1,10 +1,12 @@
 //
 // LuaRuntime.cs
 //
-// Author:
+// Authors:
 //       Chris Howie <me@chrishowie.com>
+//       Tom Roostan <RoosterDragon@outlook.com>
 //
 // Copyright (c) 2013 Chris Howie
+// Copyright (c) 2015 Tom Roostan
 //
 // Permission is hereby granted, free of charge, to any person obtaining a copy
 // of this software and associated documentation files (the "Software"), to deal
@@ -776,10 +778,7 @@ namespace Eluant
                 LuaApi.lua_settable(LuaState, -3);
 
                 // For all others, we use MetamethodAttribute on the interface to make this code less repetitive.
-                var metamethods = obj.BackingCustomObject.GetType().GetInterfaces()
-                    .SelectMany(iface => iface.GetCustomAttributes(typeof(MetamethodAttribute), false).Cast<MetamethodAttribute>());
-
-                foreach (var metamethod in metamethods) {
+                foreach (var metamethod in obj.BackingCustomObjectMetamethods) {
                     LuaApi.lua_pushstring(LuaState, metamethod.MethodName);
                     Push(metamethodCallbacks[metamethod.MethodName]);
                     LuaApi.lua_settable(LuaState, -3);
