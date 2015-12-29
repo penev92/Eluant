@@ -57,9 +57,9 @@ namespace Eluant
 
         private MetamethodAttribute[] metamethods;
 
-        internal override MetamethodAttribute[] BackingCustomObjectMetamethods
+        internal override MetamethodAttribute[] BackingCustomObjectMetamethods(LuaRuntime runtime)
         {
-            get { return metamethods ?? (metamethods = Metamethods(BackingCustomObject.GetType())); }
+            return metamethods ?? (metamethods = runtime.CachedMetamethods(BackingCustomObject.GetType()));
         }
     }
 }

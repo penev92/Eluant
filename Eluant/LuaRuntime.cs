@@ -78,6 +78,7 @@ namespace Eluant
         private const string OPAQUECLROBJECT_METATABLE = "eluant_opaqueclrobject";
 
         private Dictionary<string, LuaFunction> metamethodCallbacks = new Dictionary<string, LuaFunction>();
+        private Dictionary<Type, MetamethodAttribute[]> metamethodAttributes = new Dictionary<Type, MetamethodAttribute[]>();
 
         private LuaFunction createManagedCallWrapper;
 
@@ -778,7 +779,7 @@ namespace Eluant
                 LuaApi.lua_settable(LuaState, -3);
 
                 // For all others, we use MetamethodAttribute on the interface to make this code less repetitive.
-                foreach (var metamethod in obj.BackingCustomObjectMetamethods) {
+                foreach (var metamethod in obj.BackingCustomObjectMetamethods(this)) {
                     LuaApi.lua_pushstring(LuaState, metamethod.MethodName);
                     Push(metamethodCallbacks[metamethod.MethodName]);
                     LuaApi.lua_settable(LuaState, -3);
@@ -789,6 +790,19 @@ namespace Eluant
                 objectReferenceManager.DestroyReference(reference);
                 throw;
             }
+        }
+
+        internal MetamethodAttribute[] CachedMetamethods(Type backingCustomObjectType)
+        {
+            MetamethodAttribute[] metamethods;
+            if (metamethodAttributes.TryGetValue(backingCustomObjectType, out metamethods)) {
+                return metamethods;
+            }
+
+            metamethods = LuaClrObjectValue.Metamethods(backingCustomObjectType);
+            metamethodAttributes.Add(backingCustomObjectType, metamethods);
+
+            return metamethods;
         }
 
         private int NewindexCallback(IntPtr state)

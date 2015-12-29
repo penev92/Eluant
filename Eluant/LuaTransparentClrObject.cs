@@ -73,9 +73,9 @@ namespace Eluant
             get { return proxy; }
         }
 
-        internal override MetamethodAttribute[] BackingCustomObjectMetamethods
+        internal override MetamethodAttribute[] BackingCustomObjectMetamethods(LuaRuntime runtime)
         {
-            get { return TransparentClrObjectProxy.Metamethods; }
+            return TransparentClrObjectProxy.Metamethods;
         }
 
         private class TransparentClrObjectProxy : ILuaTableBinding, ILuaEqualityBinding

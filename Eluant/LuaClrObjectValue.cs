@@ -58,7 +58,7 @@ namespace Eluant
 
         internal abstract object BackingCustomObject { get; }
 
-        internal abstract MetamethodAttribute[] BackingCustomObjectMetamethods { get; }
+        internal abstract MetamethodAttribute[] BackingCustomObjectMetamethods(LuaRuntime runtime);
 
         static internal MetamethodAttribute[] Metamethods(Type backingCustomObjectType)
         {
