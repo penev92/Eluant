@@ -55,9 +55,9 @@ namespace Eluant
             get { return null; }
         }
 
-        internal override MetamethodAttribute[] BackingCustomObjectMetamethods
+        internal override MetamethodAttribute[] BackingCustomObjectMetamethods(LuaRuntime runtime)
         {
-            get { return null; }
+            return null;
         }
     }
 }
