@@ -2,15 +2,21 @@
 <package>
   <metadata>
     <id>OpenRA-Eluant</id>
-    <version>1.0.21-a5</version>
+    <version>0.0.1</version> <!-- Version is set during packaging. -->
     <authors>OpenRA</authors>
     <owners>OpenRA</owners>
     <projectUrl>https://github.com/OpenRA/Eluant</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
-    <description>Eluant modified for OpenRA</description>
-    <copyright>Copyright (c) The OpenRA Developers and Contributors</copyright>
+    <description>
+    This is a version of Eluant modified and packaged for OpenRA.
+    The package includes the C# wrapper (Eluant) and the native binaries for Lua and targets version 5.1.5 of the native project.
+    </description>
+    <copyright>
+    - Copyright (c) 2013 Chris Howie
+    - Copyright (c) The OpenRA Developers and Contributors
+    </copyright>
     <license type="expression">MIT</license>
-    <tags>OpenRA Lua scripting</tags>
+    <tags>OpenRA natives Lua scripting</tags>
     <dependencies>
       <group targetFramework=".NETStandard2.0" />
     </dependencies>
