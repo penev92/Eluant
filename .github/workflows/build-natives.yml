@@ -55,7 +55,7 @@ jobs:
                 curl -s -L -O https://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz
                 tar xf lua-${LUA_VERSION}.tar.gz
                 cd lua-${LUA_VERSION}/src/
-                patch < ../../liblua.patch
+                patch < ../../liblua.macos.patch
                 make liblua.5.1.dylib CC="clang -target x86_64-apple-macos10.11" LD="clang -target x86_64-apple-macos10.11"
                 cp liblua.${LUA_VERSION}.dylib ../../artifacts/x86_64/lua51.dylib
                 make clean
@@ -75,19 +75,17 @@ jobs:
         runs-on: ubuntu-22.04
         container: centos:centos7
         steps:
+            - name: Clone repository
+              uses: actions/checkout@v3
+
             - name: Setup Dependencies
               run: |
                 mkdir -p artifacts/x64
-                chown -R $(id -u):$(id -g) $PWD
-                yum -y install https://repo.ius.io/ius-release-el7.rpm centos-release-scl scl-utils
-                yum -y install devtoolset-8 cmake3 bzip2 patch
-                source /opt/rh/devtoolset-8/enable
+                yum -y install gcc make patch
 
-            # TODO: CHECKOUT REPO INSTEAD OF DOWNLOADING THE PATCH FILE WITH CURL!?!?!?!?!
             - name: Compile natives
               run: |
                 curl -s -L -O https://www.lua.org/ftp/lua-${LUA_VERSION}.tar.gz
-                curl -s -L -O https://raw.githubusercontent.com/${GITHUB_REPOSITORY}/${GITHUB_REF_NAME}/liblua.linux.patch
                 tar xf lua-${LUA_VERSION}.tar.gz
                 cd lua-${LUA_VERSION}/src/
                 patch < ../../liblua.linux.patch
